@@ -6,6 +6,8 @@
 <!ENTITY aboutMe.download-media-types "Download Media Types">
 <!ENTITY aboutMe.download-stats "Downloads Stats">
 <!ENTITY aboutMe.daily-downloads "Daily Downloads Trends">
+<!ENTITY aboutMe.extensions-stats "Extensions Stats">
+<!ENTITY aboutMe.extensions-installed "Installed Extensions">
 <!ENTITY week.short-sunday "sun">
 <!ENTITY week.short-monday "mon">
 <!ENTITY week.short-tuesday "tue">
