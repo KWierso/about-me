@@ -75,6 +75,8 @@ var AboutMe = {
     this.fillDownloadsStats();
     this.fillDownloadsPieChart();
     this.fillDailyDownloads();
+
+    this.fillExtensionsStats();
   },
 
   checkUserData: function AM_checkUserData () {
@@ -448,6 +450,13 @@ var AboutMe = {
         handleRow: handleRow
       });
     }
+  },
+
+  // extensions function ---------------------------------------------------------
+
+  fillExtensionsStats: function AM_fillExtensionsStats () {
+
+    return null;
   },
 
   // helper functions ---------------------------------------------------------
