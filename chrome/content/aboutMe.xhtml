@@ -14,7 +14,7 @@
   <xul:stringbundleset id="strbundles">
     <xul:stringbundle id="strings" src="chrome://aboutMe/locale/aboutMe.properties"/>
   </xul:stringbundleset>
-  
+
   <head>
     <title>&aboutMe.pagetitle;</title>
     <link rel="stylesheet" href="chrome://global/skin/about.css" type="text/css"/>
@@ -28,25 +28,33 @@
 
   <body>
     <h1>&aboutMe.header;</h1>
-    
+
     <h2>&aboutMe.activity-stats;</h2>
     <div id="activity-contents">
       <h3>&aboutMe.most-visited;</h3>
       <table id="most-visited"/>
-      
+
       <h3>&aboutMe.hourly-activity;</h3>
       <table id="hourly-activity"/>
     </div>
-    
+
     <h2>&aboutMe.download-stats;</h2>
     <div id="downloads-contents">
       <div id="downloads-stats" />
-      
+
       <h3>&aboutMe.download-media-types;</h3>
       <table id="downloads-pie" />
-      
+
       <h3>&aboutMe.daily-downloads;</h3>
       <table id="daily-downloads"/>
+    </div>
+
+    <h2>&aboutMe.extensions-stats;</h2>
+    <div id="extensions-contents">
+      <div id="extensions-stats" />
+
+      <h3>&aboutMe.extensions-installed;</h3>
+      <table id="extensions-list" />
     </div>
   </body>
 </html>
