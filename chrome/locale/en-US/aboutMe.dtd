@@ -8,6 +8,8 @@
 <!ENTITY aboutMe.daily-downloads "Daily Downloads Trends">
 <!ENTITY aboutMe.extensions-stats "Extensions Stats">
 <!ENTITY aboutMe.extensions-installed "Installed Extensions">
+<!ENTITY aboutMe.themes-installed "Installed Themes">
+<!ENTITY aboutMe.extensions-detailed "Extension Details">
 <!ENTITY week.short-sunday "sun">
 <!ENTITY week.short-monday "mon">
 <!ENTITY week.short-tuesday "tue">
