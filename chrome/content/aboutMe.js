@@ -458,11 +458,12 @@ var AboutMe = {
   // extensions function ---------------------------------------------------------
 
   fillExtensionsStats: function AM_fillExtensionsStats () {
+      let count = {};
       // get array of all installed extensions
-      let extensions = gExtensionManager.getItemList(2);
+      let extensions = gExtensionManager.getItemList(2, count);
 
       // get array of all installed themes
-      let themes = gExtensionManager.getItemList(4);
+      let themes = gExtensionManager.getItemList(4, count);
 
       $("<tbody></tbody>").appendTo($("#extensions-list"))
       let extBody = document.getElementById("extensions-list").firstChild;
