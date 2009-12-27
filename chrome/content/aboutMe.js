@@ -458,13 +458,19 @@ var AboutMe = {
   // extensions function ---------------------------------------------------------
 
   fillExtensionsStats: function AM_fillExtensionsStats () {
+      // get the total count of extensions and themes
+      let summary = gStringBundle.getString("extensionStats");
+
       let count = {};
       // get array of all installed extensions
       let extensions = gExtensionManager.getItemList(2, count);
+      summary = summary.replace("XXX", count.value);
 
       // get array of all installed themes
       let themes = gExtensionManager.getItemList(4, count);
+      summary = summary.replace("YYY", count.value);
 
+      $("#extensions-stats").html("<p>" + summary + "</p>");
       $("<tbody></tbody>").appendTo($("#extensions-list"))
       let extBody = document.getElementById("extensions-list").firstChild;
 
