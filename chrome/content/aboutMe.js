@@ -52,6 +52,9 @@ var placesDB = hs.QueryInterface(Ci.nsPIPlacesDatabase).DBConnection;
 var downloadsDB = Cc["@mozilla.org/download-manager;1"].
                   getService(Ci.nsIDownloadManager).DBConnection;
 
+var gExtensionManager = Components.classes["@mozilla.org/extensions/manager;1"]
+                        .getService(Components.interfaces.nsIExtensionManager);
+
 // for localization
 var gStringBundle = document.getElementById("strings");
 
@@ -455,8 +458,70 @@ var AboutMe = {
   // extensions function ---------------------------------------------------------
 
   fillExtensionsStats: function AM_fillExtensionsStats () {
+      // get array of all installed extensions
+      let extensions = gExtensionManager.getItemList(2);
 
+      // get array of all installed themes
+      let themes = gExtensionManager.getItemList(4);
+
+      $("<tbody></tbody>").appendTo($("#extensions-list"))
+      let extBody = document.getElementById("extensions-list").firstChild;
+
+      for(let i in extensions) {
+        // prep table cell for item
+        extBody.appendChild(document.createElement("tr"));
+        extBody.getElementsByTagName("tr")[i].appendChild(document.createElement("td"));
+
+        // create item for extension information
+        let item = document.createElement("a");
+        item.innerHTML = extensions[i].name;
+        item.setAttribute("version", extensions[i].version);
+        item.setAttribute("id", extensions[i].id);
+        item.setAttribute("maxAppVersion", extensions[i].maxAppVersion);
+        item.setAttribute("minAppVersion", extensions[i].minAppVersion);
+
+
+        item.addEventListener("click", function() { AboutMe.extInfo(this); }, false);
+        extBody.getElementsByTagName("td")[i].appendChild(item);
+      }
+
+      $("<tbody></tbody>").appendTo($("#themes-list"))
+      let themeBody = document.getElementById("themes-list").firstChild;
+
+      for(let i in themes) {
+        // prep table cell for item
+        themeBody.appendChild(document.createElement("tr"));
+        themeBody.getElementsByTagName("tr")[i].appendChild(document.createElement("td"));
+
+        // create item for extension information
+        let item = document.createElement("a");
+        item.innerHTML = themes[i].name;
+        item.setAttribute("version", themes[i].version);
+        item.setAttribute("id", themes[i].id);
+        item.setAttribute("maxAppVersion", themes[i].maxAppVersion);
+        item.setAttribute("minAppVersion", themes[i].minAppVersion);
+
+
+        item.addEventListener("click", function() { AboutMe.extInfo(this); }, false);
+        themeBody.getElementsByTagName("td")[i].appendChild(item);
+      }
     return null;
+  },
+
+  extInfo: function AM_extInfo(elem) {
+    let name = gStringBundle.getString("extensionName");
+    let ver = gStringBundle.getString("extensionVersion");
+    let id = gStringBundle.getString("extensionId");
+    let max = gStringBundle.getString("extensionMaxAppVersion");
+    let min = gStringBundle.getString("extensionMinAppVersion");
+
+    document.getElementById("extensions-detailed").innerHTML = 
+                "<i><b>" + name + ":</b></i> " + elem.innerHTML + "<br/>" +
+                "<b>" + ver + ":</b> " + elem.getAttribute("version") + "<br/>" +
+                "<b>" + id + ":</b> " + elem.getAttribute("id") + "<br/>" +
+                "<b>" + min + ":</b> " + elem.getAttribute("minAppVersion") + "<br/>" +
+                "<b>" + max + ":</b> " + elem.getAttribute("maxAppVersion") + "<br/>";
+    $(".detail").fadeIn("slow");
   },
 
   // helper functions ---------------------------------------------------------
