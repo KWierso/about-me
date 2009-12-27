@@ -59,3 +59,8 @@ table#daily-downloads tr.details img { margin-right:5px; }
 table#daily-downloads tr.details span { margin-left:5px;  }
 
 div#downloads-stats { font-size:1.2em; padding-bottom:5px; }
+
+
+div#extensions-contents div.clear { height: 1px; margin: 0 0 -1px 0; clear: both; overflow: hidden; }
+div#extensions-contents div.floater { float: left; width: 33%; }
+div#extensions-contents div.details { float: right !important;; display:none; width: 32% !important; }
