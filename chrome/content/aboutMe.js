@@ -55,6 +55,9 @@ var downloadsDB = Cc["@mozilla.org/download-manager;1"].
 var gExtensionManager = Components.classes["@mozilla.org/extensions/manager;1"]
                         .getService(Components.interfaces.nsIExtensionManager);
 
+var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                   .getService(Components.interfaces.nsIWindowMediator);
+
 // for localization
 var gStringBundle = document.getElementById("strings");
 
@@ -80,6 +83,8 @@ var AboutMe = {
     this.fillDailyDownloads();
 
     this.fillExtensionsStats();
+
+    this.fillTabStats();
   },
 
   checkUserData: function AM_checkUserData () {
@@ -470,7 +475,7 @@ var AboutMe = {
       let themes = gExtensionManager.getItemList(4, count);
       summary = summary.replace("YYY", count.value);
 
-      $("#extensions-stats").html("<p>" + summary + "</p>");
+      $("#extensions-stats").html(summary);
       $("<tbody></tbody>").appendTo($("#extensions-list"))
       let extBody = document.getElementById("extensions-list").firstChild;
 
@@ -515,7 +520,7 @@ var AboutMe = {
     return null;
   },
 
-  extInfo: function AM_extInfo(elem) {
+  extInfo: function AM_extInfo (elem) {
     let name = gStringBundle.getString("extensionName");
     let ver = gStringBundle.getString("extensionVersion");
     let id = gStringBundle.getString("extensionId");
@@ -531,6 +536,70 @@ var AboutMe = {
     $(".detail").fadeIn("slow");
   },
 
+  // tabs function ---------------------------------------------------------
+  fillTabStats: function AM_fillTabStats () {
+    // get all of the tabs
+    let gBrowser = wm.getMostRecentWindow("navigator:browser").getBrowser();
+    let browsers = gBrowser.browsers;
+
+    // get count of all tabs
+    let summary = gStringBundle.getString("tabStats");
+    summary = summary.replace("XXX", browsers.length);
+
+    $("#tab-stats").html(summary);
+
+    
+    $("<tbody></tbody>").appendTo($("#tab-list"))
+    let tabBody = document.getElementById("tab-list").firstChild;
+
+    // for each tab, do something
+    for(let i in browsers) {
+        //alert(browsers[i].contentTitle);     // alerts the title of each tab
+        // prep table cell for item
+        tabBody.appendChild(document.createElement("tr"));
+        tabBody.getElementsByTagName("tr")[i].appendChild(document.createElement("td"));
+
+        // create item for extension information
+        let item = document.createElement("a");
+        item.innerHTML = browsers[i].contentTitle;
+        try { 
+            item.setAttribute("host", browsers[i].currentURI.host); 
+        } catch(e) { /* Can't find hostname. Probably an "about:" uri... */ }
+        item.setAttribute("path", browsers[i].currentURI.path.replace("&", "&amp;"));
+        item.setAttribute("secUI", browsers[i].securityUI.state);
+        item.setAttribute("charset", browsers[i].currentURI.originCharset);
+
+        if(browsers[i].currentURI.prePath == "about:") {
+            item.setAttribute("host", "about:" + browsers[i].currentURI.path.replace("&", "&amp;"));
+            item.removeAttribute("path");
+        }
+        item.addEventListener("click", function() { AboutMe.tabInfo(this); }, false);
+        tabBody.getElementsByTagName("td")[i].appendChild(item);
+    }
+  },
+
+  tabInfo: function AM_tabInfo (elem) {
+    let title = gStringBundle.getString("tabTitle");
+    let path = gStringBundle.getString("tabPath");
+    let host = gStringBundle.getString("tabHost");
+    let secUI = gStringBundle.getString("tabSecurity");
+    let charset = gStringBundle.getString("tabCharset");
+
+    let detailDivs = document.getElementById("tab-details").getElementsByTagName("div");
+
+    // Clear all old content from the details block
+    for(let i in detailDivs)
+        detailDivs[i].innerHTML = "";
+
+    // If one of the attributes can't be read, don't break everything else
+    try{ detailDivs[0].innerHTML = "<i><b>" + title + ":</b></i> " + elem.innerHTML;} catch(e) {}
+    try{ detailDivs[1].innerHTML = "<b>" + host + ":</b> " + elem.getAttribute("host");} catch(e) {}
+    try{ detailDivs[2].innerHTML = "<b>" + path + ":</b> " + elem.getAttribute("path");} catch(e) {}
+    try{ detailDivs[3].innerHTML = "<b>" + secUI + ":</b> " + elem.getAttribute("secUI");} catch(e) {}
+    try{ detailDivs[4].innerHTML = "<b>" + charset + ":</b> " + elem.getAttribute("charset");} catch(e) {}
+
+    $(".detail").fadeIn("slow");
+  },
   // helper functions ---------------------------------------------------------
 
   prettyDomain: function AM_prettyDomain (rev_host) {
