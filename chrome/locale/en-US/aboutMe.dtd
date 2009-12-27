@@ -10,6 +10,9 @@
 <!ENTITY aboutMe.extensions-installed "Installed Extensions">
 <!ENTITY aboutMe.themes-installed "Installed Themes">
 <!ENTITY aboutMe.extensions-detailed "Extension Details">
+<!ENTITY aboutMe.tab-stats "Tab Stats">
+<!ENTITY aboutMe.tab-list "Open Tabs">
+<!ENTITY aboutMe.tab-details "Tab Details">
 <!ENTITY week.short-sunday "sun">
 <!ENTITY week.short-monday "mon">
 <!ENTITY week.short-tuesday "tue">
