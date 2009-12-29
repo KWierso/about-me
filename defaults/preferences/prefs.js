@@ -1,0 +1,1 @@
+pref("extensions.aboutMe.defaultIndex",0);

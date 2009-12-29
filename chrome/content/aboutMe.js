@@ -58,6 +58,9 @@ var gExtensionManager = Components.classes["@mozilla.org/extensions/manager;1"]
 var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                    .getService(Components.interfaces.nsIWindowMediator);
 
+var ps = Components.classes["@mozilla.org/preferences-service;1"]
+                      .getService(Components.interfaces.nsIPrefService);
+
 // for localization
 var gStringBundle = document.getElementById("strings");
 
@@ -85,6 +88,19 @@ var AboutMe = {
     this.fillExtensionsStats();
 
     this.fillTabStats();
+
+    // for every item in the menu, add a listener to change what's displayed when clicked
+    let menuItems = document.getElementById("menu").getElementsByTagName("li");
+try {
+    for(let i in menuItems) {
+        menuItems[i].addEventListener("click", this.selectSection, false); // XXX This throws an error for me, but it works anyway
+        menuItems[i].setAttribute("index", i);
+    }
+} catch(e) { }
+
+    // Get user's most recent menu selection and initialize to that preference
+    let defIndex = ps.getBranch("extensions.aboutMe.").getIntPref("defaultIndex");
+    this.initializeDefault(menuItems[defIndex]);
   },
 
   checkUserData: function AM_checkUserData () {
@@ -610,6 +626,31 @@ var AboutMe = {
     return ["http://", rev_host.reverse().substring(1), "/"].join("");
   },
 
+  // select a different section of about:me to display
+  selectSection: function AM_selectSection() {
+    let selectedIndex = this.getAttribute("index");
+
+    let menuItems = $("#menu li");
+    for(let i =0; i < menuItems.size(); i++) {
+        if(i == selectedIndex) {
+            menuItems[i].className = "current";
+        } else {
+            menuItems[i].className = "";
+        }
+    }
+
+    let borderItems = $(".boxborder > div");
+    for(let i = 0; i < borderItems.size(); i++) {
+        if(selectedIndex == i) {
+            borderItems[i].className = "active";
+        } else {
+            borderItems[i].className = "";
+        }
+    }
+
+    ps.getBranch("extensions.aboutMe.").setIntPref("defaultIndex", selectedIndex);
+  },
+
   // takes unix timestamp (seconds)
   prettyTime: function AM_prettyTime (time) {
     let dateTimeFormat = gStringBundle.getString("dateTimeFormat");
@@ -649,6 +690,13 @@ var AboutMe = {
       }
     });
     stmt.finalize();
+  },
+
+  initializeDefault: function AM_initializeDefault(elem) {
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("click", true, true, window,
+      0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    elem.dispatchEvent(evt);
   }
 };
 

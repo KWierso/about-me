@@ -61,6 +61,22 @@ table#daily-downloads tr.details span { margin-left:5px;  }
 div#downloads-stats { font-size:1.2em; padding-bottom:5px; }
 
 div#extensions-stats { font-size:1.2em; padding-bottom:5px; }
-div#extensions-contents div.clear { height: 1px; margin: 0 0 -1px 0; clear: both; overflow: hidden; }
+div.clear { height: 1px; margin: 0 0 -1px 0; clear: both; overflow: hidden; }
 div#extensions-contents div.floater { float: left; width: 33%; }
 div#extensions-contents div.details { float: right !important;; display:none; width: 32% !important; }
+
+body > div.boxborder > div { display: none; }
+body > div.boxborder > div.active { display: inherit; }
+div.boxborder { border: 2px groove; padding: 5px; }
+
+#menu ul { float: left; list-style-type: none; margin: 0px; padding: 0px; width: 800px; }
+#menu ul li { float: left; background: url('start.png') no-repeat; margin-right: 1px; }
+#menu ul li a { float: left; background: url('end.png') no-repeat; background-position: 100% 0%; 
+            padding-left: 5px; padding-right: 5px; font: 12px Arial; text-decoration: none; 
+            font-weight: bold; color: #FFFFFF; line-height: 30px; }
+#menu ul li a:hover { text-decoration: underline; }
+#menu ul li.current { float: left; background: url('startCurrent.png') no-repeat; margin-right: 1px; }
+#menu ul li.current a { float: left; background: url('endCurrent.png') no-repeat; 
+            background-position: 100% 0%; padding-left: 5px; padding-right: 5px;
+            font: 12px Arial; text-decoration: none; font-weight: bold;
+            color: #FFFFFF; line-height: 30px; }

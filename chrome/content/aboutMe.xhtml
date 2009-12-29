@@ -29,67 +29,88 @@
   <body>
     <h1>&aboutMe.header;</h1>
 
-    <h2>&aboutMe.activity-stats;</h2>
-    <div id="activity-contents">
-      <h3>&aboutMe.most-visited;</h3>
-      <table id="most-visited"/>
-
-      <h3>&aboutMe.hourly-activity;</h3>
-      <table id="hourly-activity"/>
+    <div id="menu">
+        <ul>
+            <li><a href="">Activity</a></li>
+            <li><a href="">Downloads</a></li>
+            <li><a href="">Extensions</a></li>
+            <li><a href="">Tabs</a></li>
+        </ul>
     </div>
 
-    <h2>&aboutMe.download-stats;</h2>
-    <div id="downloads-contents">
-      <div id="downloads-stats" />
+    <div class="clear" />
 
-      <h3>&aboutMe.download-media-types;</h3>
-      <table id="downloads-pie" />
+    <div class="boxborder">
+        <div id="activity">
+            <h2>&aboutMe.activity-stats;</h2>
+            <div id="activity-contents">
+              <h3>&aboutMe.most-visited;</h3>
+              <table id="most-visited"/>
 
-      <h3>&aboutMe.daily-downloads;</h3>
-      <table id="daily-downloads"/>
-    </div>
-
-    <h2>&aboutMe.extensions-stats;</h2>
-    <div id="extensions-contents">
-      <div id="extensions-stats" />
-
-      <div class="floater">
-        <h3>&aboutMe.extensions-installed;</h3>
-        <table id="extensions-list" />
-      </div>
-
-      <div class="floater">
-        <h3>&aboutMe.themes-installed;</h3>
-        <table id="themes-list" />
-      </div>
-
-      <div class="floater detail">
-        <h3>&aboutMe.extensions-detailed;</h3>
-        <div id="extensions-detailed" />
-      </div>
-      <div class="clear" />
-    </div>
-
-    <h2>&aboutMe.tab-stats;</h2>
-    <div id="tab-contents">
-      <div id="tab-stats" />
-
-      <div>
-        <h3>&aboutMe.tab-list;</h3>
-        <table id="tab-list" />
-      </div>
-
-      <div class="detail">
-        <h3>&aboutMe.tab-details;</h3>
-        <div id="tab-details">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
+              <h3>&aboutMe.hourly-activity;</h3>
+              <table id="hourly-activity"/>
+            </div>
         </div>
-      </div>
-      <div class="clear" />
+
+        <div id="downloads">
+        <h2>&aboutMe.download-stats;</h2>
+            <div id="downloads-contents">
+              <div id="downloads-stats" />
+
+              <h3>&aboutMe.download-media-types;</h3>
+              <table id="downloads-pie" />
+
+              <h3>&aboutMe.daily-downloads;</h3>
+              <table id="daily-downloads"/>
+            </div>
+        </div>
+
+        <div id="extensions">
+            <h2>&aboutMe.extensions-stats;</h2>
+            <div id="extensions-contents">
+              <div id="extensions-stats" />
+
+              <div class="floater">
+                <h3>&aboutMe.extensions-installed;</h3>
+                <table id="extensions-list" />
+              </div>
+
+              <div class="floater">
+                <h3>&aboutMe.themes-installed;</h3>
+                <table id="themes-list" />
+              </div>
+
+              <div class="floater detail">
+                <h3>&aboutMe.extensions-detailed;</h3>
+                <div id="extensions-detailed" />
+              </div>
+              <div class="clear" />
+            </div>
+        </div>
+
+        <div id="tabs">
+            <h2>&aboutMe.tab-stats;</h2>
+            <div id="tab-contents">
+              <div id="tab-stats" />
+
+              <div>
+                <h3>&aboutMe.tab-list;</h3>
+                <table id="tab-list" />
+              </div>
+
+              <div class="detail">
+                <h3>&aboutMe.tab-details;</h3>
+                <div id="tab-details">
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                </div>
+              </div>
+              <div class="clear" />
+            </div>
+        </div>
     </div>
   </body>
 </html>
