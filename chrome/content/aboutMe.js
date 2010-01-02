@@ -61,6 +61,11 @@ var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
 var ps = Components.classes["@mozilla.org/preferences-service;1"]
                       .getService(Components.interfaces.nsIPrefService);
 
+var geolocation = Components.classes["@mozilla.org/geolocation;1"];
+if(geolocation) { // Don't break about:me for Firefox 3.5
+    var gs = geolocation.getService(Components.interfaces.nsIDOMGeoGeolocation);
+}
+
 // for localization
 var gStringBundle = document.getElementById("strings");
 
@@ -88,6 +93,8 @@ var AboutMe = {
     this.fillExtensionsStats();
 
     this.fillTabStats();
+
+    this.fillGeolocationStats();
 
     // for every item in the menu, add a listener to change what's displayed when clicked
     let menuItems = document.getElementById("menu").getElementsByTagName("li");
@@ -616,6 +623,70 @@ try {
 
     $(".detail").fadeIn("slow");
   },
+
+  // Get information about the user's location
+  fillGeolocationStats: function AM_fillGeolocationStats() {
+    if(gs) {
+        let geoEnabledString = gStringBundle.getString("geoEnabled");
+        let geoDisabledString = gStringBundle.getString("geoDisabled");
+        let geoVersionError = gStringBundle.getString("geoVersionError");
+        let geoServiceDisabled = gStringBundle.getString("geoServiceDisabled");
+
+        let geoEnabled = ps.getBranch("extensions.aboutMe.").getBoolPref("geoEnable");
+
+        let toggle = document.getElementById("geo-enable").getElementsByTagName("a")[0];
+
+        // Only use the service if the user consents
+        if(geoEnabled) {
+            toggle.innerHTML = geoEnabledString;
+            try {
+              gs.getCurrentPosition(function(position) {
+                  AboutMe.getPosition(position.coords.latitude, position.coords.longitude); 
+              });
+            } catch(e) {
+              // If "geo.enabled" is false in user's preferences, getCurrentPosition() will fail
+              toggle.parentNode.innerHTML = geoServiceDisabled;
+            }
+        } else {
+            toggle.innerHTML = geoDisabledString;
+        }
+        if(document.getElementById("geo-enable").getElementsByTagName("a")[0]) {
+            toggle.addEventListener("click", function() { AboutMe.toggleGeo(this); }, false);
+        }
+    } else {
+        // Probably Firefox 3.5. Can't access geolocation service this way.
+        document.getElementById("geo-stats").innerHTML = geoError;
+    }
+  },
+
+  getPosition: function AM_getPosition(latitude, longitude) {
+    let latString = gStringBundle.getString("geoLat");
+    let longString = gStringBundle.getString("geoLong");
+
+    let geoStats = document.getElementById("geo-stats");
+    let geoTableRows = geoStats.getElementsByTagName("td");
+
+    geoTableRows[0].innerHTML = "<b>" + latString + ":</b>";
+    geoTableRows[1].innerHTML = latitude;
+    geoTableRows[2].innerHTML = "<b>" + longString + ":</b>";
+    geoTableRows[3].innerHTML = longitude;
+  },
+
+  toggleGeo: function AM_toggleGeo(elem) {
+    let geoEnabledString = gStringBundle.getString("geoEnabled");
+    let geoDisabledString = gStringBundle.getString("geoDisabled");
+
+    if(elem.innerHTML == "enabled") {
+        ps.getBranch("extensions.aboutMe.").setBoolPref("geoEnable", false);
+        elem.innerHTML = geoDisabledString;
+        document.getElementById("geo-stats").innerHTML = "";
+    } else {
+        ps.getBranch("extensions.aboutMe.").setBoolPref("geoEnable", true);
+        elem.innerHTML = geoEnabledString;
+        window.location.reload();
+    }
+  },
+
   // helper functions ---------------------------------------------------------
 
   prettyDomain: function AM_prettyDomain (rev_host) {
